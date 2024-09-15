@@ -1,6 +1,12 @@
 # Trademark Search Application
 
+<p align="center">
+  <img src="https://github.com/rishn/21BPS1394_Frontend/blob/main/public/logo.png?raw=true" alt="Trademarkia" />
+</p>
+
 This project is a **trademark search engine** designed to provide users with the ability to search for and view detailed information about registered trademarks. The application features a clean, user-friendly interface that displays trademark logos, names, serial numbers, and statuses with color-coded indicators for easy navigation.
+
+This was made as part of the Trademarkia Hiring Challenge.
 
 ## Table of Contents
 
@@ -19,7 +25,16 @@ This project is a **trademark search engine** designed to provide users with the
   - Blue for pending
   - Red for expired
 - **Responsive UI:** The application is fully responsive, designed to work across various devices and screen sizes.
-- **Filters & Sharing:** Placeholder buttons for future filters, sharing options, and menus.
+- **Filters & Sharing:** Buttons for future filters, sharing options, and menus.
+- **Miscellaneous:** Panels for image search and applying trademarks.
+
+<p align="center">
+  <img src="https://github.com/rishn/21BPS1394_Frontend/blob/main/public/search_list.png?raw=true" alt="Trademarkia" />
+</p>
+
+<p align="center">
+  <img src="https://github.com/rishn/21BPS1394_Frontend/blob/main/public/selected_trademark.png?raw=true" alt="Trademarkia" />
+</p>
 
 ## Deployed Application
 

@@ -1,14 +1,13 @@
 "use client"; // Ensure this is a Client Component
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/navigation'; // Import useRouter
 import { FaCamera, FaFilter, FaShareAlt, FaBars } from 'react-icons/fa'; // Import icons
 import Image from 'next/image';
-import Logo from '../image.png';
+import Logo from '../public/image.png';
 import useTitle from '../hooks/useTitle'; // Import the useTitle hook
 import { Upload } from 'antd'
-import { InboxOutlined } from '@ant-design/icons'; // Import the InboxOutlined icon for the upload component
 
 const { Dragger } = Upload;
 
@@ -29,6 +28,13 @@ const SearchPage = () => {
       ? `${filteredResults.length} Trademark Results found for "${searchQuery}" | Trademark Search 21BPS1394`
       : 'Trademark Search 21BPS1394'
   );
+
+  useEffect(() => {
+    const link = document.createElement('link');
+    link.rel = 'icon';
+    link.href = '/logo.ico';
+    document.head.appendChild(link);
+  }, []);
 
   const handleSearch = async () => {
     try {
@@ -79,6 +85,9 @@ const SearchPage = () => {
   return (
     <>
       <Head>
+        <link rel="icon" href="/logo.ico" />
+        <meta name="description" content="Trademark Search 21BPS1394" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Trademark Search</title>
       </Head>
       <div className="min-h-screen bg-[#ffffff] flex flex-col items-center">
