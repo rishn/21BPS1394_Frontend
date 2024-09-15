@@ -47,4 +47,4 @@ The frontend of this project is deployed and accessible here:
 - **Frontend:** React, Next.js, TypeScript
 - **Styling:** Tailwind CSS
 - **Icons:** FontAwesome React Icons
-- **Deployment:** Render.com
+- **Deployment:** Vercel.com
