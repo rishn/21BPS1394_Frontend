@@ -40,7 +40,7 @@ This was made as part of the Trademarkia Hiring Challenge.
 
 The frontend of this project is deployed and accessible here:
 
-[Trademark Search Application](https://21bps1394-trademarksearch.onrender.com)
+[Trademark Search Application](https://21-bps-1394-frontend.vercel.app)
 
 ## Tech Stack
 
