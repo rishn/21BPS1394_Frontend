@@ -1,101 +1,190 @@
-import Image from "next/image";
+"use client"; // Ensure this is a Client Component
 
-export default function Home() {
+import { useState } from 'react';
+import Head from 'next/head';
+import { useRouter } from 'next/navigation'; // Import useRouter
+import { FaCamera, FaFilter, FaShareAlt, FaBars } from 'react-icons/fa'; // Import icons
+import Logo from '../image.png'
+const SearchPage = () => {
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [results, setResults] = useState<any[]>([]);
+  const [filteredResults, setFilteredResults] = useState<any[]>([]);
+  const [selectedCard, setSelectedCard] = useState<any | null>(null);
+  const router = useRouter(); // Initialize useRouter
+
+  const handleSearch = async () => {
+    try {
+      const res = await fetch(`/api/search`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: searchQuery })
+      });
+
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await res.json();
+
+      // Check if data is valid
+      if (data && Array.isArray(data)) {
+        setResults(data);
+        // Filter results based on search query
+        const filtered = data.filter((result) =>
+          result.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredResults(filtered);
+      } else {
+        throw new Error('Invalid data format');
+      }
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
+  };
+
+  const handleCardClick = (card: any) => {
+    setSearchQuery(card.name); // Update searchQuery to the card's name
+    setSelectedCard(card);
+  };
+
+  const handleBackClick = () => {
+    setSelectedCard(null);
+    setSearchQuery(''); // Optionally clear search query
+    router.push('/'); // Navigate back to the search page
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <>
+      <Head>
+        <title>Trademark Search</title>
+      </Head>
+      <div className="min-h-screen bg-[#ffffff] flex flex-col items-center">
+        {/* Header with search input */}
+        <header className="w-full bg-[#f9fbfe] p-4 shadow-md">
+          <div className="container mx-auto flex items-center">
+            <img src="../image.png" alt="Logo" className="w-12 h-12 mr-4" /> {/* Replace with actual logo */}
+            <button
+              onClick={handleSearch}
+              className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 mr-2"
+            >
+              Search
+            </button>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+            {/* Search bar with camera icon inside */}
+            <div className="relative flex-1">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search for trademarks..."
+                className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none text-gray-500"
+              />
+              <FaCamera className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-2xl" />
+            </div>
+          </div>
+        </header>
+
+        {/* Search Status */}
+        {searchQuery && (
+          <div className="w-full bg-white p-4 shadow-md flex items-center justify-between mb-6">
+            <p className="text-gray-500">About 159 Trademarks found for “{searchQuery}”</p>
+            <div className="flex items-center">
+              <FaFilter className="text-gray-500 text-xl mr-4" />
+              <FaShareAlt className="text-gray-500 text-xl mr-4" />
+              <FaBars className="text-gray-500 text-xl" />
+            </div>
+          </div>
+        )}
+
+        {/* Search Results or Detailed View */}
+        <main className="container mx-auto p-6">
+          {selectedCard ? (
+            <div className="flex flex-col items-start">
+              <div className="mb-6">
+                <p className="text-gray-500 mb-2">
+                  <button 
+                    onClick={handleBackClick} 
+                    className="text-blue-500 hover:underline"
+                  >
+                    Trademark Search
+                  </button> 
+                  {' '} &gt; {selectedCard.name}
+                </p>
+              </div>
+              <div className="flex items-start mb-6">
+                <div className="w-32 h-32 bg-gray-200 flex items-center justify-center mr-4">
+                  {/* Replace with actual logo */}
+                  <span className="text-gray-400 text-4xl">Logo</span>
+                </div>
+                <div className="flex-1">
+                  <h2 className="text-3xl font-bold text-gray-600 mb-2">{selectedCard.name}</h2>
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <p className={`font-semibold ${selectedCard.status === 'Registered' ? 'text-green-500' : selectedCard.status === 'Pending' ? 'text-blue-500' : 'text-red-500'}`}>Status: {selectedCard.status}</p>
+                <p className="text-gray-600">Serial Number: {selectedCard.serialNumber} filed on {selectedCard.filedDate}</p>
+                <p className="text-gray-600">Registration Number: {selectedCard.registrationNumber} registered on {selectedCard.registrationDate}</p>
+              </div>
+            </div>
+          ) : (
+            <>
+              <h2 className="text-2xl font-semibold mb-4 text-gray-500">Search Results</h2>
+              {/* Table Header */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-gray-500 mb-4">
+                <div className="font-bold">Mark</div>
+                <div className="font-bold">Details</div>
+                <div className="font-bold">Status</div>
+              </div>
+
+              {/* Results */}
+              {filteredResults.map((result, index) => {
+                // Determine color based on status
+                const statusColor = 
+                  result.status === 'Registered' ? 'text-green-500' :
+                  result.status === 'Pending' ? 'text-blue-500' :
+                  result.status === 'Expired' ? 'text-red-500' :
+                  'text-gray-500';
+
+                return (
+                  <div 
+                    key={index} 
+                    className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 p-4 border rounded-lg bg-white shadow-md cursor-pointer"
+                    onClick={() => handleCardClick(result)}
+                  >
+                    {/* Logo Column */}
+                    <div className="flex-none w-16 h-16 bg-gray-200 flex items-center justify-center mr-4">
+                      {/* Replace with actual logo */}
+                      <span className="text-gray-400 text-xl">Logo</span>
+                    </div>
+
+                    {/* Details Column */}
+                    <div className="flex flex-col">
+                      <div className="font-bold text-gray-600">{result.name}</div>
+                      <div className="text-gray-600">Serial Number: {result.serialNumber}</div>
+                    </div>
+
+                    {/* Status Column */}
+                    <div className="flex flex-col">
+                      <div className={`font-semibold mb-1 ${statusColor}`}>{result.status}</div>
+                      <div className="text-gray-600">Filing Date: {result.filedDate}</div>
+                      <div className="text-gray-600">Registration Date: {result.registrationDate}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          )}
+        </main>
+
+        {/* Footer */}
+        <footer className="w-full bg-gray-800 text-white p-4">
+          <div className="container mx-auto text-center">
+            &copy; 2024 Trademark Search App
+          </div>
+        </footer>
+      </div>
+    </>
   );
-}
+};
+
+export default SearchPage;
