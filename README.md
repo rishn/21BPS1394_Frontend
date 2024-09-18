@@ -13,7 +13,6 @@ This was made as part of the Trademarkia Hiring Challenge.
 1. [Features](#features)
 2. [Deployed Application](#deployed-application)
 3. [Tech Stack](#tech-stack)
-4. [Installation](#installation)
 
 ## Features
 
