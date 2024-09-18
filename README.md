@@ -14,7 +14,6 @@ This was made as part of the Trademarkia Hiring Challenge.
 2. [Deployed Application](#deployed-application)
 3. [Tech Stack](#tech-stack)
 4. [Installation](#installation)
-5. [Running the Project](#running-the-project)
 
 ## Features
 
